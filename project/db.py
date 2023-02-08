@@ -1,11 +1,12 @@
 from flask import Flask, request, jsonify
 import json
 import sqlite3
+from flask_restful import Api, Resource
 
 
 
 app = Flask(__name__)
-app.debug = True
+api = Api(app)
 
 
 
@@ -24,7 +25,7 @@ def home():
 # @app.route("/delete", methods=['DELETE'])
 
 
-
+# python -m flask run (to run server, make sure cd into project)
 if __name__ == '__main__':
     
-    app.run(host='0.0.0', port=3000)
+    app.run(host='0.0.0', port=3000, debug=True)
