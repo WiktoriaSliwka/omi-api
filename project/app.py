@@ -3,6 +3,8 @@ import json
 import sqlite3
 from flask_restful import Api, Resource
 import requests
+import db
+from db import connect_to_db
 
 
 
@@ -12,6 +14,7 @@ api = Api(app)
 
 @app.route("/products", methods=['GET'])
 def products():
+    connect_to_db()
     req = requests.get('https://api.storerestapi.com/products')
     return (req.content)
 
