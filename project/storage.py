@@ -11,7 +11,7 @@ class Storage():
         try:
             cur = self.conn.cursor()
             user_table = ("""
-            CREATE TABLE users (
+            CREATE TABLE IF NOT EXISTS users (
                 user_id INTEGER PRIMARY KEY NOT NULL,
                 username TEXT NOT NULL,
                 password TEXT NOT NULL,
@@ -37,21 +37,20 @@ class Storage():
         except:
             print("Tables creation failed")
         finally:
-            self.conn.close()
+            cur.close()
 
 
     def register_user(self, username, password, email):
-        #inserted_user = {}
             cur = self.conn.cursor()
-            # name = input('Username:')
+            #name = input('Username:')
             # password = input('Password:') 
             # email = input('Email:')
-            cur.execute('INSERT INTO users (username, password, email VAUES (?, ?, ?))',
-            (username, password, email))
+            cur.execute("INSERT INTO users (username, password, email) VALUES (?, ?, ?)", (username, password, email))
             self.conn.commit()
-            #cur.close()
+            #cur.close() 
 
-        
+    # def getUsers():
+    #    return getUser
 
     # def update_user():
     #     return update_user

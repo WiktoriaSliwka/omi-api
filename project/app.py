@@ -34,7 +34,7 @@ def register():
     password = request.form['password']
     email = request.form['email']
     cur = Storage()
-    #cur.register_user()
+    cur.register_user(username, password, email)
     return "registered user"
 
 #@app.route("/delete", methods=['DELETE'])
