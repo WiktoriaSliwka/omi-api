@@ -1,5 +1,5 @@
 import sqlite3
-from sqlite_utils import Database
+
 
 class Storage():
     def __init__(self):
@@ -49,8 +49,13 @@ class Storage():
             self.conn.commit()
             #cur.close() 
 
-    # def getUsers():
-    #    return getUser
+    def getUsers(self):
+        cur = self.conn.cursor()
+        cur.execute("SELECT username, password FROM users")
+        users = cur.fetchall()
+        cur.close()
+        return users
+       
 
     # def update_user():
     #     return update_user
