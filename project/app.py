@@ -4,11 +4,13 @@ import sqlite3
 from flask_restful import Api, Resource
 import requests
 from storage import Storage
+from flask_bcrypt import Bcrypt
 
 
 
 app = Flask(__name__)
-api = Api(app)
+bcrypt = Bcrypt(app)
+
 
 
 
