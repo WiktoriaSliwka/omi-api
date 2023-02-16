@@ -8,6 +8,7 @@ from flask_bcrypt import Bcrypt
 
 
 
+
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
 
@@ -38,6 +39,9 @@ def register():
     return "registered user"
 
 #@app.route("/delete", methods=['DELETE'])
+
+
+	
 
 
 # python -m flask run (to run server, make sure cd into project)
