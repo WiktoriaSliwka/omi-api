@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template, url_for
 import json
 import sqlite3
 from flask_restful import Api, Resource
@@ -7,12 +7,8 @@ from storage import Storage
 from flask_bcrypt import Bcrypt
 
 
-
-
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
-
-
 
 
 @app.route("/products", methods=['GET'])
@@ -20,13 +16,16 @@ def products():
     req = requests.get('https://api.storerestapi.com/products')
     return (req.content)
 
+
 @app.route("/")
 def home():
-    return "Home page"
+    return render_template('home.html')
 
-#@app.route("/users")
- #def log_in():
-#     return "log in page"
+
+@app.route("/login", methods=['GET'])
+def login():
+    return render_template('login.html')
+
 
 @app.route("/register", methods=['POST','GET'])
 def register():  
