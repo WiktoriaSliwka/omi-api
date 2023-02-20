@@ -8,16 +8,20 @@ from flask_bcrypt import Bcrypt
 
 
 
+
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
 
 
 
 
-@app.route("/products", methods=['GET'])
+@app.route("/products", methods=['POST'])
 def products():
-    req = requests.get('https://api.storerestapi.com/products')
-    return (req.content)
+    cur = Storage()
+    cur.insert_products()
+    return "products inserted"
+
+    
 
 @app.route("/")
 def home():
@@ -38,6 +42,9 @@ def register():
     return "registered user"
 
 #@app.route("/delete", methods=['DELETE'])
+
+
+
 
 
 # python -m flask run (to run server, make sure cd into project)

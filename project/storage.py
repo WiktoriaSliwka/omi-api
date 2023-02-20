@@ -1,11 +1,21 @@
 import sqlite3
-
+from settings import *
+from flask import jsonify
+import requests
 
 class Storage():
     def __init__(self):
         self.conn = sqlite3.connect('database.db')
         self.create_db_tables()
+
+    def data():
+        r = requests.get("https://api.storerestapi.com/products").json()
+        data_dump = r['data']
         
+       
+        return data_dump
+        
+    
         
     def create_db_tables(self):
         try:
@@ -19,13 +29,13 @@ class Storage():
             );
             """)
             products_table = (""" 
-            CREATE TABLE IF NOT EXISTS products(
+            CREATE TABLE IF NOT EXISTS results(
+                id INTEGER NOT NULL,
                 title TEXT NOT NULL,
                 price INTEGER NOT NULL,
                 category TEXT NOT NULL,
-                description TEXT,
                 createdBy TEXT,
-                slug TEXT
+                createdById TEXT
             )
             """)
             cur.execute(user_table)
@@ -62,12 +72,41 @@ class Storage():
 
     # def delete_user():
     #     return delete_user
+    # def InsertProducts(self):
+    #     cur = self.conn.cursor()
+    #     cur.execute("INSERT ")
 
-    # def create_products():
+    data = data()
+    
+    def insert_products(self):
+        cur = self.conn.cursor()
+        for i in range(len(self.data)):
+            try:
+                cur.execute('INSERT INTO results (id, title, price, category, createdBy, createdById) VALUES (?,?,?,?,?,?)', (self.data[i]['_id'], self.data[i]['title'], self.data[i]['price'], self.data[i]['category']['name'], self.data[i]['category']['name'], self.data[i]['createdBy']['_id']))
+                self.conn.commit()
+            except sqlite3.IntegrityError:
+                pass
+        cur.close()
+
+
+
+    # def create_product():
     #     return create_products
 
     # def update_product():
     #     return update_product
 
-    # def delete_products():
-    #     return delete_products
+    def delete_products(self, title):
+        cur = self.conn.cursor()
+        try:
+            cur.execute("DELETE FROM results where title = ?", (title))
+            self.conn.commit()
+        except sqlite3.IntegrityError:
+            pass
+            cur.close()
+        
+    
+    
+    
+
+   
