@@ -52,12 +52,14 @@ class Storage():
 
     def register_user(self, username, password, email):
             cur = self.conn.cursor()
-            #name = input('Username:')
-            # password = input('Password:') 
-            # email = input('Email:')
-            cur.execute("INSERT INTO users (username, password, email) VALUES (?, ?, ?)", (username, password, email))
-            self.conn.commit()
-            #cur.close() 
+            try:
+                cur.execute("INSERT INTO users (username, password, email) VALUES (?, ?, ?)", (username, password, email))
+                self.conn.commit()
+            except sqlite3.IntegrityError:
+                pass
+                
+
+                cur.close() 
 
     def getUsers(self):
         cur = self.conn.cursor()
@@ -67,14 +69,23 @@ class Storage():
         return users
        
 
+    def findUser(self, username, password):
+        cur = self.conn.cursor()
+        try:
+            res = cur.execute("SELECT * from users WHERE username = username AND  password = password", {'username': username, 'password': password})
+            return res.fetchone()
+        except sqlite3.IntegrityError:
+            pass
+        user = cur.fetchone()
+        cur.close()
+        return user
+   
     # def update_user():
     #     return update_user
 
     # def delete_user():
     #     return delete_user
-    # def InsertProducts(self):
-    #     cur = self.conn.cursor()
-    #     cur.execute("INSERT ")
+    
 
     data = data()
     
@@ -82,16 +93,14 @@ class Storage():
         cur = self.conn.cursor()
         for i in range(len(self.data)):
             try:
-                cur.execute('INSERT INTO results (id, title, price, category, createdBy, createdById) VALUES (?,?,?,?,?,?)', (self.data[i]['_id'], self.data[i]['title'], self.data[i]['price'], self.data[i]['category']['name'], self.data[i]['category']['name'], self.data[i]['createdBy']['_id']))
+                cur.execute('INSERT INTO results (id, title, price, category, createdBy, createdById) VALUES (?,?,?,?,?,?)', (self.data[i]['_id'], self.data[i]['title'], self.data[i]['price'], self.data[i]['category']['name'], self.data[i]['createdBy']['name'], self.data[i]['createdBy']['_id']))
                 self.conn.commit()
             except sqlite3.IntegrityError:
                 pass
         cur.close()
 
-
-
-    # def create_product():
-    #     return create_products
+    #def create_product():
+    #    return create_products
 
     # def update_product():
     #     return update_product

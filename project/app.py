@@ -1,10 +1,11 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template, redirect
 import json
 import sqlite3
 from flask_restful import Api, Resource
 import requests
 from storage import Storage
 from flask_bcrypt import Bcrypt
+from flask_login import LoginManager
 
 
 
@@ -25,21 +26,44 @@ def products():
 
 @app.route("/")
 def home():
-    return "Home page"
+    return "home page"
+    # return render_template('home.html')
 
-#@app.route("/users")
- #def log_in():
-#     return "log in page"
 
 @app.route("/register", methods=['POST','GET'])
 def register():  
-
-    username = request.form['username']
-    password = request.form['password']
-    email = request.form['email']
-    cur = Storage()
-    cur.register_user(username, password, email)
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        email = request.form['email']
+        #Add hashed password here!
+        cur = Storage()
+        cur.register_user(username, password, email)
     return "registered user"
+
+
+@app.route("/login", methods=['POST', 'GET'])
+def log_in():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        cur = Storage()
+        user = cur.findUser(username, password)
+
+        print(user)
+        
+        if not user:
+            return "username or password incorrect"
+        
+        
+    return "logged in user"
+
+        
+
+
+
+
+    
 
 #@app.route("/delete", methods=['DELETE'])
 
