@@ -72,14 +72,26 @@ class Storage():
     def findUser(self, username, password):
         cur = self.conn.cursor()
         try:
-            res = cur.execute("SELECT * from users WHERE username = username AND  password = password", {'username': username, 'password': password})
+            res = cur.execute("SELECT * from users WHERE username = username AND password = password", {'username': username, 'password': password})
             return res.fetchone()
         except sqlite3.IntegrityError:
             pass
-        user = cur.fetchone()
         cur.close()
-        return user
+        
    
+    def getuserId(self):
+        cur = self.conn.cursor()
+        try:
+            res = cur.execute("SELECT user_id from users")
+            return res.fetchone()
+        except sqlite3.IntegrityError:
+            pass
+        cur.close()
+            
+        
+
+
+
     # def update_user():
     #     return update_user
 
@@ -98,6 +110,7 @@ class Storage():
             except sqlite3.IntegrityError:
                 pass
         cur.close()
+
 
     #def create_product():
     #    return create_products
