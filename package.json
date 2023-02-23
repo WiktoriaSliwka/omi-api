@@ -19,6 +19,7 @@
   "homepage": "https://github.com/WiktoriaSliwka/omi-api#readme",
   "dependencies": {
     "bcrypt": "^5.1.0",
+    "postgres": "^3.3.3",
     "sqlite3": "^5.1.4"
   }
 }

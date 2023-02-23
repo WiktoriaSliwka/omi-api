@@ -15,3 +15,14 @@ print(salt)
 # printing the hashed
 print("Hashed")
 print(hashed)
+
+# def insertIntoDb():
+#   postgres.runUpdate(
+# "INSERT INTO USERS
+# VALUES($user,$hashed)"
+# )
+
+if bcrypt.checkpw(password, hashed):
+    print("It matches!")
+else:
+    print("Didn't match")
