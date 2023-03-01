@@ -92,8 +92,13 @@ class Storage():
 
 
 
-    # def update_user():
-    #     return update_user
+    def update_user(self, username, password):
+        cur = self.conn.cursor()
+        try:
+            cur.execute("UPDATE users SET password = ? WHERE username = username AND password = password", {'username': username, 'password': password})
+        except sqlite3.IntegrityError:
+            pass
+        cur.close()
 
     # def delete_user():
     #     return delete_user

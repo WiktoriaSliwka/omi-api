@@ -64,6 +64,8 @@ def log_in():
         password = request.form.get('password')
         cur = Storage()
         user = cur.findUser(username, password)
+        # cur.execute("""INSERT INTO USER(PASSWORD) 
+        # VALUES ('password')""")
         print(user)
         if not user:
             return "username or password incorrect"
@@ -81,6 +83,19 @@ def log_in():
     if request.method == 'GET':
 
         return render_template('login.html')
+
+@app.route("/login/update", methods = ['PUT'])
+def update_user():
+        
+        username = request.form.get('username')
+        password = request.form.get('password')
+        current_user
+        cur = Storage()
+        cur.update_user(username, password )
+        # username.new_username = username
+        # password.new_password = password
+
+        return 'updated_user'
 
 # @app.route("/admin", methods=['GET', 'POST'])
 # @login_required
